@@ -907,7 +907,7 @@ cluster:
 metrics:
   ## @param metrics.enabled Start a side-car prometheus exporter
   ##
-  enabled: false
+  enabled: true
   ## @param metrics.image.registry [default: REGISTRY_NAME] Redis&reg; exporter image registry
   ## @param metrics.image.repository [default: REPOSITORY_NAME/redis-exporter] Redis&reg; exporter image name
   ## @skip metrics.image.tag Redis&reg; exporter image tag
@@ -999,26 +999,28 @@ metrics:
   serviceMonitor:
     ## @param metrics.serviceMonitor.enabled If `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)
     ##
-    enabled: false
+    enabled: true
     ## @param metrics.serviceMonitor.namespace Optional namespace which Prometheus is running in
     ##
-    namespace: ""
+    namespace: "monitoring"
     ## @param metrics.serviceMonitor.interval How frequently to scrape metrics (use by default, falling back to Prometheus' default)
     ##
-    interval: ""
+    interval: "30s"
     ## @param metrics.serviceMonitor.scrapeTimeout Timeout after which the scrape is ended
     ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#endpoint
     ## e.g:
     ## scrapeTimeout: 10s
     ##
-    scrapeTimeout: ""
+    scrapeTimeout: "10s"
     ## @param metrics.serviceMonitor.selector Prometheus instance selector labels
     ## ref: https://github.com/bitnami/charts/tree/main/bitnami/prometheus-operator#prometheus-configuration
     ## e.g:
     ## selector:
     ##   prometheus: my-prometheus
     ##
-    selector: {}
+    selector:
+      release: prometheus
+
     ## @param metrics.serviceMonitor.labels ServiceMonitor extra labels
     ##
     labels: {}
