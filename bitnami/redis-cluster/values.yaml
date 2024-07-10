@@ -21,7 +21,7 @@ global:
   imagePullSecrets: []
   storageClass: ""
   redis:
-    password: ""
+    password: "redis@vultr"
   ## Compatibility adaptations for Kubernetes platforms
   ##
   compatibility:
@@ -395,7 +395,7 @@ persistence:
     - ReadWriteOnce
   ## @param persistence.size Size of data volume
   ##
-  size: 8Gi
+  size: 1Gi
   ## @param persistence.matchLabels Persistent Volume selectors
   ## https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector
   ##
@@ -562,7 +562,8 @@ redis:
   ## @param redis.configmap Additional Redis&reg; configuration for the nodes
   ## ref: https://redis.io/topics/config
   ##
-  configmap: ""
+  configmap: |
+    save ""
   ## @param redis.extraEnvVars An array to add extra environment variables
   ## For example:
   ##  - name: BEARER_AUTH

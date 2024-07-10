@@ -1,0 +1,16 @@
+global:
+  redis:
+    password: "redis@vultr"  # Replace with your desired Redis password
+
+  
+persistence:
+  enabled: true
+  path: /bitnami/redis/data
+  size: 1Gi
+
+redis:
+  configmap: |
+    appendfsync always
+    save ""
+    
+
