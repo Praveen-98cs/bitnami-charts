@@ -1,0 +1,46 @@
+## Bitnami Redis&reg; image
+## ref: https://hub.docker.com/r/bitnami/redis/tags/
+## @param image.registry Redis&reg; image registry
+## @param image.repository Redis&reg; image repository
+## @param image.tag Redis&reg; image tag (immutable tags are recommended)
+## @param image.digest Redis&reg; image digest in the way sha256:aa.... Please note this parameter, if set, will override the tag
+## @param image.pullPolicy Redis&reg; image pull policy
+## @param image.pullSecrets Redis&reg; image pull secrets
+##
+
+
+global:
+  redis:
+    password: "redis"
+  image:
+  registry: sjc.vultrcr.com
+  repository: choreovultrpocreg/redis-cluster-with-json
+  tag: latest
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+redis:
+  configmap: |
+    loadmodule /opt/bitnami/redis/modules/rejson.so
+
+cluster:
+  nodes: 6
+  updateStrategy: RollingUpdate
+  replicas: 1
+  # resources:
+  #   requests:
+  #     memory: 500Mi
+  #     cpu: 500m
+  #   limits:
+  #     memory: 1Gi
+  #     cpu: 1
+  persistence:
+    enabled: true
+    storageClass: ""
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
+
+## Network Policy configuration
+## ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+##
