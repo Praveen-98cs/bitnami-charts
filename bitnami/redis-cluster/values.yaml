@@ -13,7 +13,16 @@
 ## @param global.storageClass DEPRECATED: use global.defaultStorageClass instead
 ## @param global.redis.password Redis&reg; password (overrides `password`)
 ##
+
 global:
+  azureTenantID:
+  cloudProvider:
+  hcVaultAddress: "http://vault.vault.svc.cluster.local:8200"
+  keyVaultName:
+  secretProvider: "vault"
+  secrets:
+    redisPasswordKVRef: "secret/data/redis-password"
+
   imageRegistry: ""
   ## E.g.
   ## imagePullSecrets:
@@ -23,7 +32,7 @@ global:
   defaultStorageClass: ""
   storageClass: ""
   redis:
-    password: "redis"
+    password: ""
   ## Compatibility adaptations for Kubernetes platforms
   ##
   compatibility:
@@ -160,13 +169,13 @@ serviceAccount:
   ## @param serviceAccount.name The name of the ServiceAccount to create
   ## If not set and create is true, a name is generated using the fullname template
   ##
-  name: ""
+  name: 
   ## @param serviceAccount.annotations Annotations for Cassandra Service Account
   ##
   annotations: {}
   ## @param serviceAccount.automountServiceAccountToken Automount API credentials for a service account.
   ##
-  automountServiceAccountToken: false
+  automountServiceAccountToken: true
 rbac:
   ## @param rbac.create Specifies whether RBAC resources should be created
   ##
@@ -257,10 +266,10 @@ usePassword: true
 password: ""
 ## @param existingSecret Name of existing secret object (for password authentication)
 ##
-existingSecret: ""
+existingSecret: 
 ## @param existingSecretPasswordKey Name of key containing password to be retrieved from the existing secret
 ##
-existingSecretPasswordKey: ""
+existingSecretPasswordKey: 
 ## @param usePasswordFile Mount passwords as files instead of environment variables
 ##
 usePasswordFile: false
@@ -270,7 +279,7 @@ usePasswordFile: false
 tls:
   ## @param tls.enabled Enable TLS support for replication traffic
   ##
-  enabled: false
+  enabled: false  
   ## @param tls.authClients Require clients to authenticate or not
   ##
   authClients: true
@@ -370,7 +379,7 @@ persistence:
   ## If disabled, an emptyDir volume is used. This is not recommended.
   ## ref: https://github.com/bitnami/charts/tree/main/bitnami/redis-cluster#persistence
   ##
-  enabled: true
+  enabled: false
   ## @param persistence.path Path to mount the volume at, to use other images Redis&reg; images.
   ##
   path: /bitnami/redis/data
@@ -530,10 +539,19 @@ redis:
   lifecycleHooks: {}
   ## @param redis.extraVolumes Extra volumes to add to the deployment
   ##
-  extraVolumes: []
+  extraVolumes: 
+    - name: vault-token
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: redis-cluster-provider
   ## @param redis.extraVolumeMounts Extra volume mounts to add to the container
   ##
-  extraVolumeMounts: []
+  extraVolumeMounts:
+    - name: vault-token
+      mountPath: /csi/vault-token
+      readOnly: true
   ## @param redis.customLivenessProbe Override default liveness probe
   ##
   customLivenessProbe: {}
@@ -1176,3 +1194,8 @@ sysctlImage:
   ##     memory: 1024Mi
   ##
   resources: {}
+
+
+
+
+
