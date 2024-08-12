@@ -15,10 +15,10 @@
 ##
 
 global:
-  azureTenantID:
-  cloudProvider:
+  azureTenantID: ""
+  cloudProvider: ""
   hcVaultAddress: "http://vault.vault.svc.cluster.local:8200"
-  keyVaultName:
+  keyVaultName: ""
   secretProvider: "vault"
   secrets:
     redisPasswordKVRef: "secret/data/redis-password"
@@ -114,7 +114,7 @@ image:
 networkPolicy:
   ## @param networkPolicy.enabled Enable creation of NetworkPolicy resources
   ##
-  enabled: true
+  enabled: false
   ## @param networkPolicy.allowExternal The Policy model to apply
   ## When set to false, only pods with the correct client label will have network access to the ports Redis&reg; Cluster is
   ## listening on. When true, Redis&reg; Cluster will accept connections from any source (with the correct destination port).
@@ -1024,7 +1024,7 @@ metrics:
   serviceMonitor:
     ## @param metrics.serviceMonitor.enabled If `true`, creates a Prometheus Operator ServiceMonitor (also requires `metrics.enabled` to be `true`)
     ##
-    enabled: true
+    enabled: false
     ## @param metrics.serviceMonitor.namespace Optional namespace which Prometheus is running in
     ##
     namespace: "monitoring"
