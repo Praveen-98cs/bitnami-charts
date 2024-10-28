@@ -27,9 +27,9 @@ In order to replicate the container startup scripts execute this command:
 
 {{- else }}
 
-{{ if .Values.usePassword }}
+{{- if .Values.usePassword }}
 To get your password run:
-    {{ include "common.utils.secret.getvalue" (dict "secret" $secretName "field" $secretPasswordKey "context" $) }}
+    kubectl get secret --namespace {{ .Release.Namespace }} {{ include "redis-cluster.secretName" . }} -o jsonpath="{.data.{{ include "redis-cluster.secretPasswordKey" . }}}" | base64 --decode
 {{- end }}
 
 {{- if .Values.cluster.externalAccess.enabled }}

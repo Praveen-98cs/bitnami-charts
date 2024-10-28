@@ -158,18 +158,18 @@ Get the password key to be retrieved from Redis&reg; secret.
 {{- end -}}
 {{- end -}}
 
-{{/*
-Return Redis&reg; password
-*/}}
-{{- define "redis-cluster.password" -}}
-{{- if not (empty .Values.global.redis.password) }}
-    {{- .Values.global.redis.password -}}
-{{- else if not (empty .Values.password) -}}
-    {{- .Values.password -}}
-{{- else -}}
-    {{- randAlphaNum 10 -}}
-{{- end -}}
-{{- end -}}
+# {{/*
+# Return Redis&reg; password
+# */}}
+# {{- define "redis-cluster.password" -}}
+# {{- if not (empty .Values.global.redis.password) }}
+#     {{- .Values.global.redis.password -}}
+# {{- else if not (empty .Values.password) -}}
+#     {{- .Values.password -}}
+# {{- else -}}
+#     {{- randAlphaNum 10 -}}
+# {{- end -}}
+# {{- end -}}
 
 {{/*
 Determines whether or not to create the Statefulset
