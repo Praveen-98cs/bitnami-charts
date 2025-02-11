@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: redis-cluster-storageclass-ssd-zrs
+allowVolumeExpansion: true
+parameters:
+  skuname: StandardSSD_ZRS
+provisioner: disk.csi.azure.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
